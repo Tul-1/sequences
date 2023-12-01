@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/404b98ea94.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/alohe/maker-tag@1.0.1/dist/mwl.min.js"></script>
+        <style>
+          ::-webkit-scrollbar {
+                width: 20px;
+                height: 20px;
+            }
+
+          ::-webkit-scrollbar-thumb {
+              background: rgba(90, 90, 90, 0.6);
+              border-radius: 50px;
+          }
+
+          ::-webkit-scrollbar-track {
+              background: linear-gradient(90deg,#8524A7, #7A33D4);
+          }
+
+        .toggleContainer {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            width: 100%;
+            border-radius: 50px;
+            background: #343434;
+            font-weight: bold;
+            font-size: 300%;
+            color: #343434;
+            cursor: pointer;
+        }
+        .toggleContainer::before {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            left: 0%;
+            border-radius:50px;
+            background: linear-gradient(90deg,#8524A7, #7A33D4);
+            transition: all 0.3s;
+        }
+        .toggleCheckbox:checked + .toggleContainer::before {
+                left: 50%;
+        }
+        .toggleContainer div {
+            padding: 6px;
+            text-align: center;
+            height: 94px;
+            line-height: 82px;
+            z-index: 1;
+        }
+        .toggleCheckbox {
+            display: none;
+        }
+        .toggleCheckbox:checked + .toggleContainer div:first-child{
+            color: white;
+            transition: color 0.3s;
+        }
+        .toggleCheckbox:checked + .toggleContainer div:last-child{
+            color: #343434;
+            transition: color 0.3s;
+        }
+        .toggleCheckbox + .toggleContainer div:first-child{
+            color: #343434;
+            transition: color 0.3s;
+        }
+        .toggleCheckbox + .toggleContainer div:last-child{
+            color: white;
+            transition: color 0.3s;
+        }
+
+        .hide {
+          display: none !important;
+        }
+
+        body {
+          background-image: linear-gradient(90deg,#8524A7, #7A33D4) !important;
+          overflow-y: hidden;
+        }
+
+        html {
+          background-color: inherit;
+        }
+
+        .extra-info {
+          display: none;
+          line-height: 27.5px;
+          font-size: 12px;
+          height: 27.5px;
+          text-align: center;
+          animation: opac 2s;
+          opacity: 0;
+        }
+
+        @keyframes opac {
+          from {opacity: 0;}
+          to {opacity: 1;}
+        }
+
+        .info:hover .extra-info {
+          display: block;
+          opacity: 1;
+        }
+
+        .info {
+          font-size: 24px;
+          padding-left: 5px;
+          width: 24px;
+          border-radius: 15px;
+          transition: all 2s ease;
+        }
+
+        .info .icon-info-sign {
+          display: block;
+        }
+
+        .info:hover .icon-info-sign {
+          display: none;
+        }
+
+        .info:hover {
+          background-color: #0d316b;
+          width: 500px;
+          text-align: left !important;
+        }
+
+        input[type=number] { text-align:center }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+        -moz-appearance: textfield;
+        }
+        </style>
+    </head>
+    <body>
+        <section class="section">
+            <div class="columns">
+                <div class="column"></div>
+              <div class="main column is-5">
+              <div class="box has-background-white-ter">
+              <h1 class="title">Sequence Calculator</h1>
+          
+              <form>
+                <div class="columns is-mobile" id="input">
+                    <div class="column is-2" style="text-align: right; height: 40px; line-height: 40px;">Input</div>
+                    <div class="column"><input class="input" type="number" id="n1" name="n1" step="any"></div>
+                    <div class="column"><input class="input" type="number" id="n2" name="n2" step="any"></div>
+                    <div class="column"><input class="input" type="number" id="n3" name="n3" step="any"></div>
+                    <div class="column"><input class="input" type="number" id="n4" name="n4" step="any"></div>
+                    <div class="column"><input class="input" type="number" id="n5" name="n5" step="any"></div>
+                </div>
+
+                <div class="columns is-mobile">
+                    <div class="column is-2"></div>
+                    <div class="column"><button class="button is-success" style="width: 100%; height: 40px; font-weight: bold;" onclick="testAll(); return false;" id="go">GO!</button></div>
+                </div>
+
+                <div class="columns is-mobile" id="arithmetic">
+                    <div class="column is-2" style="text-align: right; height: 40px; line-height: 40px;">Arithmetic</div>
+                    <div class="column"><input class="input" type="number" id="a1" name="a1" readonly></div>
+                    <div class="column"><input class="input" type="number" id="a2" name="a2" readonly></div>
+                    <div class="column"><input class="input" type="number" id="a3" name="a3" readonly></div>
+                    <div class="column"><input class="input" type="number" id="a4" name="a4" readonly></div>
+                    <div class="column"><input class="input" type="number" id="a5" name="a5" readonly></div>
+                </div>
+
+                <div class="columns is-mobile" id="geometric">
+                    <div class="column is-2" style="text-align: right; height: 40px; line-height: 40px;">Geometric</div>
+                    <div class="column"><input class="input" type="number" id="g1" name="g1" readonly></div>
+                    <div class="column"><input class="input" type="number" id="g2" name="g2" readonly></div>
+                    <div class="column"><input class="input" type="number" id="g3" name="g3" readonly></div>
+                    <div class="column"><input class="input" type="number" id="g4" name="g4" readonly></div>
+                    <div class="column"><input class="input" type="number" id="g5" name="g5" readonly></div>
+                </div>
+
+                <div class="columns is-mobile" id="fibonacci">
+                    <div class="column is-2" style="text-align: right; height: 40px; line-height: 40px;">Fibonacci</div>
+                    <div class="column"><input class="input" type="number" id="f1" name="f1" readonly></div>
+                    <div class="column"><input class="input" type="number" id="f2" name="f2" readonly></div>
+                    <div class="column"><input class="input" type="number" id="f3" name="f3" readonly></div>
+                    <div class="column"><input class="input" type="number" id="f4" name="f4" readonly></div>
+                    <div class="column"><input class="input" type="number" id="f5" name="f5" readonly></div>
+                </div>
+
+                <div class="columns is-mobile" id="quadratic">
+                    <div class="column is-2" style="text-align: right; height: 40px; line-height: 40px;">Quadratic</div>
+                    <div class="column"><input class="input" type="number" id="q1" name="q1" readonly></div>
+                    <div class="column"><input class="input" type="number" id="q2" name="q2" readonly></div>
+                    <div class="column"><input class="input" type="number" id="q3" name="q3" readonly></div>
+                    <div class="column"><input class="input" type="number" id="q4" name="q4" readonly></div>
+                    <div class="column"><input class="input" type="number" id="q5" name="q5" readonly></div>
+                </div>
+              </form>
+
+            </div>
+            </div>
+            <div class="column"></div>
+            </div>
+          </section>
+        
+        <script>
+            document.getElementById("go").addEventListener("click", function(){
+                event.preventDefault();
+            });
+
+            Number.prototype.countDecimals = function () {
+                if(Math.floor(this.valueOf()) === this.valueOf()) return 0;
+                return this.toString().split(".")[1].length || 0; 
+            }
+
+            function getElements(x) {
+                a = document.getElementById(x)
+                b = a.children
+                c = [b[1], b[2], b[3], b[4], b[5]]
+                d = c.map((y) => y.firstElementChild)
+                return d
+            }
+
+            function getTitle(x) {
+                a = document.getElementById(x)
+                b = a.firstElementChild
+                return b
+            }
+
+            function getInputs() {
+                x = getElements('input')
+                q = x.map((x) => x.value)
+                w = []
+                for (let i = 0; i < q.length; i++) {
+                    const element = q[i];
+                    if (element === "") {
+                        w.push(null)
+                    } else {
+                        w.push(parseFloat(element))
+                    }
+                }
+                return w
+            }
+
+            function testAll() {
+                arithmetic()
+                geometric()
+            }
+
+            function arithmetic() {
+                i = getInputs()
+                t = getTitle('arithmetic')
+                x = arithmeticSeq(i)
+                fail = x[0]
+                nl = x[1]
+                if (fail) {
+                    q = getElements('arithmetic')
+                    t.style.color = 'red'
+                    t.style.fontWeight = 'bold'
+                    for (let i = 0; i < q.length; i++) {
+                        const element = q[i];
+                        element.value = ''
+                        element.classList.add('is-danger')
+                        element.classList.remove('is-success')
+                    }
+                } else {
+                    t.style.color = 'green'
+                    t.style.fontWeight = 'normal'
+                    q = getElements('arithmetic')
+                    for (let i = 0; i < q.length; i++) {
+                        const element = q[i];
+                        element.value = nl[i]
+                        element.classList.remove('is-danger')
+                        element.classList.add('is-success')
+                    }
+                }
+            }
+
+            function getFirstTwo(l) {
+                n = null;
+                ni = null;
+                n1 = null;
+                n1i = null;
+                for (let i = 0; i < l.length; i++) {
+                    const element = l[i];
+                    if (typeof element === "object") {
+                        continue;
+                    }
+                    if (typeof n === "object") {
+                        n = element
+                        ni = i
+                        continue;
+                    }
+                    if (typeof n1 === "object") {
+                        n1 = element
+                        n1i = i
+                        break;
+                    }
+                }
+                return [n, ni, n1, n1i]
+            }
+
+            function arithmeticSeq(l) {
+                a = getFirstTwo(l)
+                n = a[0];
+                ni = a[1];
+                n1 = a[2];
+                n1i = a[3];
+                
+                diff = n1 - n
+                length = n1i - ni
+                increase = diff/length
+                n0 = n - (increase*ni)
+                nl = []
+                fail = false;
+                for (let i = 0; i < l.length; i++) {
+                    const element = l[i];
+                    q = n0 + (increase*i)
+                    nl.push(q)
+                    if (typeof element === "object") {
+                        continue;
+                    }
+                    if (q != element) {
+                        fail = true;
+                        break;
+                    }
+                }
+                return [fail, nl]
+            }
+
+            function geometric() {
+                i = getInputs()
+                t = getTitle('geometric')
+                x = geometricSeq(i)
+                fail = x[0]
+                nl = x[1]
+                approx = x[2]
+                if (fail) {
+                    q = getElements('geometric')
+                    t.style.color = 'red'
+                    t.style.fontWeight = 'bold'
+                    for (let i = 0; i < q.length; i++) {
+                        const element = q[i];
+                        element.value = ''
+                        element.classList.add('is-danger')
+                        element.classList.remove('is-success')
+                        element.classList.remove('is-warning')
+                    }
+                } else {
+                    t.style.color = 'green'
+                    t.style.fontWeight = 'normal'
+                    q = getElements('geometric')
+                    for (let i = 0; i < q.length; i++) {
+                        const element = q[i];
+                        element.value = nl[i]
+                    }
+                    if (approx) {
+                        t.style.color = 'hsl(48, 100%, 67%)'
+                        t.style.fontWeight = 'bold'
+                        for (let i = 0; i < q.length; i++) {
+                            const element = q[i];
+                            element.classList.remove('is-danger')
+                            element.classList.add('is-warning')
+                            element.classList.remove('is-success')
+                        }
+                    } else {
+                        for (let i = 0; i < q.length; i++) {
+                            const element = q[i];
+                            element.classList.remove('is-danger')
+                            element.classList.add('is-success')
+                            element.classList.remove('is-warning')
+                        }
+                    }
+                }
+            }
+
+            function geometricSeq(l) {
+                a = getFirstTwo(l)
+                n = a[0];
+                ni = a[1];
+                n1 = a[2];
+                n1i = a[3];
+
+                diff = n1 / n
+                length = n1i - ni
+                multiply = Math.pow(diff, (1/length))
+                n0 = n / (Math.pow(multiply, ni))
+                nl = []
+                fail = false;
+                approx = false;
+                for (let i = 0; i < l.length; i++) {
+                    const element = l[i];
+                    q = (n0 * (Math.pow(multiply, i)))
+                    if (q.countDecimals() > 5) {
+                        q = q.toFixed(5)
+                        approx = true;
+                    }
+                    nl.push(q)
+                    if (typeof element === "object") {
+                        continue;
+                    }
+                    if (q != element) {
+                        fail = true;
+                        break;
+                    }
+                }
+                return [fail, nl, approx]
+            }
+
+            new MakerTag({
+                text: "Made by Tul",
+                link: "https://discordapp.com/users/679613871107080214",
+                background: "rgba(0,0,0,0.3)",
+                color: "#fff"
+            });
+        </script>
+    </body>
+</html>
