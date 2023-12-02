@@ -111,28 +111,29 @@
         }
 
         .info {
-          font-size: 24px;
+          font-size: 20px;
           padding-left: 5px;
-          width: 24px;
+          width: 20px;
           border-radius: 15px;
           transition: all 2s ease;
         }
 
-        .info .icon-info-sign {
+        .info .fa-0 {
           display: block;
         }
 
-        .info:hover .icon-info-sign {
+        .info:hover .fa-0 {
           display: none;
         }
 
         .info:hover {
-          background-color: #0d316b;
-          width: 500px;
+          background-color: #1aa34a;
+          width: 200px;
           text-align: left !important;
         }
 
         input[type=number] { text-align:center }
+        input[type=text] { text-align:center }
 
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
@@ -150,41 +151,75 @@
         <section class="section">
             <div class="columns">
                 <div class="column"></div>
-              <div class="main column is-5">
-              <div class="box has-background-white-ter">
-              <h1 class="title">Sequence Calculator</h1>
+              <div class="main column is-8 is-7-desktop">
+              <div class="box" style="background-color: rgba(0, 0, 0, 0.3); color: #ffffff;">
+              <h1 class="title" style="color: #ffffff;">Sequence Calculator</h1>
           
               <form>
-                <div class="columns is-mobile" id="input">
-                    <div class="column is-2" style="text-align: right; height: 40px; line-height: 40px;">Input</div>
-                    <div class="column"><input class="input" type="number" id="n1" name="n1" step="any"></div>
-                    <div class="column"><input class="input" type="number" id="n2" name="n2" step="any"></div>
-                    <div class="column"><input class="input" type="number" id="n3" name="n3" step="any"></div>
-                    <div class="column"><input class="input" type="number" id="n4" name="n4" step="any"></div>
-                    <div class="column"><input class="input" type="number" id="n5" name="n5" step="any"></div>
+                <div class="columns" id="n">
+                    <div class="column is-2" style="text-align: right; height: 40px; line-height: 40px;">n</div>
+                    <div class="column"><input class="input" type="number" id="nn1" name="nn1" readonly></div>
+                    <div class="column"><input class="input" type="number" id="nn2" name="nn2" readonly></div>
+                    <div class="column"><input class="input" type="number" id="nn3" name="nn3" readonly></div>
+                    <div class="column"><input class="input" type="number" id="nn4" name="nn4" readonly></div>
+                    <div class="column"><input class="input" type="number" id="nn5" name="nn5" readonly></div>
+                    <div class="column is-2"><input class="input" type="text" id="nnn" name="nnn" readonly></div>
                 </div>
 
-                <div class="columns is-mobile">
+                <div class="columns" id="input">
+                    <div class="column is-2" style="text-align: right; height: 40px; line-height: 40px;"><span>Input</span>&nbsp;<span><i class="fa-solid fa-pen"></i></span></div>
+                    <div class="column"><input class="input is-info" type="number" id="n1" name="n1" step="any"></div>
+                    <div class="column"><input class="input is-info" type="number" id="n2" name="n2" step="any"></div>
+                    <div class="column"><input class="input is-info" type="number" id="n3" name="n3" step="any"></div>
+                    <div class="column"><input class="input is-info" type="number" id="n4" name="n4" step="any"></div>
+                    <div class="column"><input class="input is-info" type="number" id="n5" name="n5" step="any"></div>
+                    <div class="column is-2"><input class="input" type="text" id="nn" name="nn" disabled></div>
+                </div>
+
+                <div class="columns">
                     <div class="column is-2"></div>
-                    <div class="column"><button class="button is-success" style="width: 100%; height: 40px; font-weight: bold;" onclick="testAll(); return false;" id="go">GO!</button></div>
+                    <div class="column"><button class="button is-success" style="width: 100%; height: 40px; font-weight: bold;" onclick="testAll(0); return false;" id="go0">GO!&nbsp;<div class="info"><i class="fa-solid fa-0"></i><span class="extra-info">Start from <strong>n=0</strong></span></div></button></div>
+                    <div class="column is-2"><button class="button is-warning" style="width: 100%; height: 40px; font-weight: bold;" onclick="testAll(1); return false;" id="go1"><span>GO!</span>&nbsp;<span style="font-size: 20px; padding-left: 5px; width: 20px;"><i class="fa-solid fa-1"></i></span></button></div>
                 </div>
 
-                <div class="columns is-mobile" id="arithmetic">
+                <div class="columns" id="arithmetic">
                     <div class="column is-2" style="text-align: right; height: 40px; line-height: 40px;">Arithmetic</div>
                     <div class="column"><input class="input" type="number" id="a1" name="a1" readonly></div>
                     <div class="column"><input class="input" type="number" id="a2" name="a2" readonly></div>
                     <div class="column"><input class="input" type="number" id="a3" name="a3" readonly></div>
                     <div class="column"><input class="input" type="number" id="a4" name="a4" readonly></div>
                     <div class="column"><input class="input" type="number" id="a5" name="a5" readonly></div>
+                    <div class="column is-2"><input class="input" type="text" id="an" name="an" readonly></div>
                 </div>
 
-                <div class="columns is-mobile" id="geometric">
+                <div class="columns" id="geometric">
                     <div class="column is-2" style="text-align: right; height: 40px; line-height: 40px;">Geometric</div>
                     <div class="column"><input class="input" type="number" id="g1" name="g1" readonly></div>
                     <div class="column"><input class="input" type="number" id="g2" name="g2" readonly></div>
                     <div class="column"><input class="input" type="number" id="g3" name="g3" readonly></div>
                     <div class="column"><input class="input" type="number" id="g4" name="g4" readonly></div>
                     <div class="column"><input class="input" type="number" id="g5" name="g5" readonly></div>
+                    <div class="column is-2"><input class="input" type="text" id="gn" name="gn" readonly></div>
+                </div>
+
+                <div class="columns" id="fibonacci">
+                    <div class="column is-2" style="text-align: right; height: 40px; line-height: 40px;">Fibonacci</div>
+                    <div class="column"><input class="input" type="number" id="f1" name="f1" readonly></div>
+                    <div class="column"><input class="input" type="number" id="f2" name="f2" readonly></div>
+                    <div class="column"><input class="input" type="number" id="f3" name="f3" readonly></div>
+                    <div class="column"><input class="input" type="number" id="f4" name="f4" readonly></div>
+                    <div class="column"><input class="input" type="number" id="f5" name="f5" readonly></div>
+                    <div class="column is-2"><input class="input" type="text" id="fn" name="fn" readonly></div>
+                </div>
+
+                <div class="columns" id="quadratic">
+                    <div class="column is-2" style="text-align: right; height: 40px; line-height: 40px;">Quadratic</div>
+                    <div class="column"><input class="input" type="number" id="q1" name="q1" readonly></div>
+                    <div class="column"><input class="input" type="number" id="q2" name="q2" readonly></div>
+                    <div class="column"><input class="input" type="number" id="q3" name="q3" readonly></div>
+                    <div class="column"><input class="input" type="number" id="q4" name="q4" readonly></div>
+                    <div class="column"><input class="input" type="number" id="q5" name="q5" readonly></div>
+                    <div class="column is-2"><input class="input" type="text" id="qn" name="qn" readonly></div>
                 </div>
               </form>
 
@@ -195,7 +230,11 @@
           </section>
         
         <script>
-            document.getElementById("go").addEventListener("click", function(){
+            document.getElementById("go0").addEventListener("click", function(){
+                event.preventDefault();
+            });
+
+            document.getElementById("go1").addEventListener("click", function(){
                 event.preventDefault();
             });
 
@@ -218,6 +257,13 @@
                 return b
             }
 
+            function getNthTermElement(x) {
+                a = document.getElementById(x)
+                b = a.lastElementChild
+                c = b.firstElementChild
+                return c
+            }
+
             function getInputs() {
                 x = getElements('input')
                 q = x.map((x) => x.value)
@@ -233,27 +279,43 @@
                 return w
             }
 
-            function testAll() {
-                arithmetic()
-                geometric()
+            function testAll(x) {
+                n = getElements('n')
+                for (let i = 0; i < n.length; i++) {
+                    const element = n[i];
+                    element.value = i+x
+                }
+                nn = getNthTermElement('n')
+                nn.value = 'n'
+                arithmetic(x)
+                geometric(x)
             }
 
-            function arithmetic() {
+            function arithmetic(x) {
                 i = getInputs()
                 t = getTitle('arithmetic')
-                x = arithmeticSeq(i)
-                fail = x[0]
-                nl = x[1]
+                w = arithmeticSeq(i, x)
+                fail = w[0]
+                nl = w[1]
+                nth = w[2]
                 if (fail) {
                     q = getElements('arithmetic')
                     t.style.color = 'red'
                     t.style.fontWeight = 'bold'
                     for (let i = 0; i < q.length; i++) {
                         const element = q[i];
-                        element.value = ''
+                        try {
+                            element.value = nl[i]
+                        } catch (error) {
+                            pass
+                        }
                         element.classList.add('is-danger')
                         element.classList.remove('is-success')
                     }
+                    nthelement = getNthTermElement('arithmetic')
+                    nthelement.value = ''
+                    nthelement.classList.add('is-danger')
+                    nthelement.classList.remove('is-success')
                 } else {
                     t.style.color = 'green'
                     t.style.fontWeight = 'normal'
@@ -264,6 +326,10 @@
                         element.classList.remove('is-danger')
                         element.classList.add('is-success')
                     }
+                    nthelement = getNthTermElement('arithmetic')
+                    nthelement.value = nth
+                    nthelement.classList.remove('is-danger')
+                    nthelement.classList.add('is-success')
                 }
             }
 
@@ -291,7 +357,7 @@
                 return [n, ni, n1, n1i]
             }
 
-            function arithmeticSeq(l) {
+            function arithmeticSeq(l, x) {
                 a = getFirstTwo(l)
                 n = a[0];
                 ni = a[1];
@@ -316,27 +382,64 @@
                         break;
                     }
                 }
-                return [fail, nl]
+
+                if (increase == 0) {
+                    nth = n0
+                    return [fail, nl, nth]
+                }
+
+                if (increase == 1) {
+                    increase1 = ''
+                } else {
+                    increase1 = increase
+                }
+
+                if (x) {
+                    up = n0 - increase
+                } else {
+                    up = n0
+                }
+
+                if (up > 0) {
+                    nth = `${increase1}n + ${up}`;
+                } else if (up < 0) {
+                    nth = `${increase1}n - ${(up*-1)}`;
+                } else {
+                    nth = `${increase1}n`;
+                }
+
+                return [fail, nl, nth]
             }
 
-            function geometric() {
+            function geometric(x) {
                 i = getInputs()
                 t = getTitle('geometric')
-                x = geometricSeq(i)
-                fail = x[0]
-                nl = x[1]
-                approx = x[2]
+                y = geometricSeq(i, x)
+                fail = y[0]
+                nl = y[1]
+                approx = y[2]
+                nth = y[3]
                 if (fail) {
                     q = getElements('geometric')
                     t.style.color = 'red'
                     t.style.fontWeight = 'bold'
+                    nthelement = getNthTermElement('geometric')
+                    nthelement.value = nth
                     for (let i = 0; i < q.length; i++) {
                         const element = q[i];
-                        element.value = ''
+                        try {
+                            element.value = nl[i]
+                        } catch (error) {
+                            pass
+                        }
                         element.classList.add('is-danger')
                         element.classList.remove('is-success')
                         element.classList.remove('is-warning')
                     }
+                    
+                    nthelement.classList.add('is-danger')
+                    nthelement.classList.add('is-warning')
+                    nthelement.classList.remove('is-success')
                 } else {
                     t.style.color = 'green'
                     t.style.fontWeight = 'normal'
@@ -345,6 +448,8 @@
                         const element = q[i];
                         element.value = nl[i]
                     }
+                    nthelement = getNthTermElement('geometric')
+                    nthelement.value = nth
                     if (approx) {
                         t.style.color = 'hsl(48, 100%, 67%)'
                         t.style.fontWeight = 'bold'
@@ -354,6 +459,9 @@
                             element.classList.add('is-warning')
                             element.classList.remove('is-success')
                         }
+                        nthelement.classList.remove('is-danger')
+                        nthelement.classList.add('is-warning')
+                        nthelement.classList.remove('is-success')
                     } else {
                         for (let i = 0; i < q.length; i++) {
                             const element = q[i];
@@ -361,11 +469,14 @@
                             element.classList.add('is-success')
                             element.classList.remove('is-warning')
                         }
+                        nthelement.classList.remove('is-danger')
+                        nthelement.classList.remove('is-warning')
+                        nthelement.classList.add('is-success')
                     }
                 }
             }
 
-            function geometricSeq(l) {
+            function geometricSeq(l, x) {
                 a = getFirstTwo(l)
                 n = a[0];
                 ni = a[1];
@@ -381,6 +492,10 @@
                 approx = false;
                 for (let i = 0; i < l.length; i++) {
                     const element = l[i];
+                    if (element == 0) {
+                        fail = true;
+                        break;
+                    }
                     q = (n0 * (Math.pow(multiply, i)))
                     if (q.countDecimals() > 5) {
                         q = q.toFixed(5)
@@ -395,7 +510,44 @@
                         break;
                     }
                 }
-                return [fail, nl, approx]
+
+                if (multiply == 1) {
+                    nth = n0
+                    return [fail, nl, approx, nth]
+                }
+
+                if (x) {
+                    up = n0 / multiply
+                } else {
+                    up = n0
+                }
+
+                if (0 < up && up < 1) {
+                    up = Math.pow(up, -1);
+                    if (up.countDecimals() > 5) {
+                        up = up.toFixed(5);
+                        approx = true;
+                    }
+                    nth = `(${multiply}^n) / ${up}`;
+                } else {
+                    if (multiply.countDecimals() > 5) {
+                        multiply = multiply.toFixed(5);
+                        approx = true;
+                    }
+
+                    if (up.countDecimals() > 5) {
+                        up = up.toFixed(5);
+                        approx = true;
+                    }
+                    
+                    if (up == 1) {
+                        nth = `${multiply}^n`;
+                    } else {
+                        nth = `(${multiply}^n) * ${up}`;
+                    }
+                }
+                
+                return [fail, nl, approx, nth]
             }
 
             new MakerTag({
