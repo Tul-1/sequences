@@ -151,7 +151,7 @@
         <section class="section">
             <div class="columns">
                 <div class="column"></div>
-              <div class="main column is-8 is-7-desktop">
+              <div class="main column is-9 is-8-desktop">
               <div class="box" style="background-color: rgba(0, 0, 0, 0.3); color: #ffffff;">
               <h1 class="title" style="color: #ffffff;">Sequence Calculator</h1>
           
@@ -289,6 +289,23 @@
                 nn.value = 'n'
                 arithmetic(x)
                 geometric(x)
+                quadratic(x)
+            }
+
+            function solveSimultaneous2D(x_2coeff, y_2coeff, eq_2coeff) {
+                let eliminator = [[],[]];
+                eliminator[0][0] = y_2coeff[1] * x_2coeff[0];
+                eliminator[0][1] = y_2coeff[1] * eq_2coeff[0];
+                eliminator[1][0] = y_2coeff[0] * x_2coeff[1];
+                eliminator[1][1] = y_2coeff[0] * eq_2coeff[1];
+
+                try {
+                    x_variable = (eliminator[0][1] - eliminator[1][1]) / (eliminator[0][0] - eliminator[1][0]);
+                    y_variable = (eq_2coeff[0] - x_2coeff[0]*x_variable) / y_2coeff[0];
+                } catch (ex) {
+                    throw ex;
+                }
+                return [x_variable,y_variable]
             }
 
             function arithmetic(x) {
@@ -357,7 +374,7 @@
                 return [n, ni, n1, n1i]
             }
 
-            function arithmeticSeq(l, x) {
+            function arithmeticSeq(l, x, quadratic=false) {
                 a = getFirstTwo(l)
                 n = a[0];
                 ni = a[1];
@@ -385,6 +402,12 @@
 
                 if (increase == 0) {
                     nth = n0
+                    if (nth == 0) {
+                        return [fail, nl, '']
+                    }
+                    if (quadratic) {
+                        nth = '+ ' + nth.toString()
+                    }
                     return [fail, nl, nth]
                 }
 
@@ -398,6 +421,16 @@
                     up = n0 - increase
                 } else {
                     up = n0
+                }
+
+                if (quadratic) {
+                    if (increase1 > 0) {
+                        increase1 = '+ ' +increase1.toString()
+                    } else if (increase1 < 0) {
+                        increase1 = '- ' + (increase1*-1).toString()
+                    } else {
+                        increase1 = '+ '
+                    }
                 }
 
                 if (up > 0) {
@@ -548,6 +581,214 @@
                 }
                 
                 return [fail, nl, approx, nth]
+            }
+
+            function quadratic(x) {
+                i = getInputs()
+                t = getTitle('quadratic')
+                w = quadraticSeqV2(i, x)
+                fail = w[0]
+                nl = w[1]
+                nth = w[2]
+                if (fail) {
+                    q = getElements('quadratic')
+                    t.style.color = 'red'
+                    t.style.fontWeight = 'bold'
+                    for (let i = 0; i < q.length; i++) {
+                        const element = q[i];
+                        try {
+                            element.value = nl[i]
+                        } catch (error) {
+                            pass
+                        }
+                        element.classList.add('is-danger')
+                        element.classList.remove('is-success')
+                    }
+                    nthelement = getNthTermElement('quadratic')
+                    nthelement.value = ''
+                    nthelement.classList.add('is-danger')
+                    nthelement.classList.remove('is-success')
+                } else {
+                    t.style.color = 'green'
+                    t.style.fontWeight = 'bold'
+                    q = getElements('quadratic')
+                    for (let i = 0; i < q.length; i++) {
+                        const element = q[i];
+                        element.value = nl[i]
+                        element.classList.remove('is-danger')
+                        element.classList.add('is-success')
+                    }
+                    nthelement = getNthTermElement('quadratic')
+                    nthelement.value = nth
+                    nthelement.classList.remove('is-danger')
+                    nthelement.classList.add('is-success')
+                }
+            }
+
+            function quadraticSeq(l, x) {
+                n = null;
+                ni = null;
+                n1 = null;
+                n1i = null;
+                n2 = null;
+                n2i = null;
+                for (let i = 0; i < l.length; i++) {
+                    const element = l[i];
+                    if (typeof element === "object") {
+                        continue;
+                    }
+                    if (typeof n === "object") {
+                        n = element
+                        ni = i
+                        continue;
+                    }
+                    if (typeof n1 === "object") {
+                        n1 = element
+                        n1i = i
+                        continue;
+                    }
+                    if (typeof n2i === "object") {
+                        n2 = element
+                        n2i = i
+                        break;
+                    }
+                }
+
+                if (((n1i - ni) == 1) && ((n2i - n1i) == 1)) {
+                    difO11 = n1 - n
+                    difO11i = ni
+                    difO12 = n2 - n1
+                    difO12i = n1i
+                    difO2 = difO12 - difO11
+                    difO2i = difO11i
+                    coefficientn2 = difO2 / 2
+                    qw = []
+                    for (let i = 0; i < l.length; i++) {
+                        const element = l[i];
+                        if (typeof element === "object") {
+                            qw.push(null)
+                            continue
+                        }
+                        w = element - (coefficientn2 * (Math.pow((i+x), 2)))
+                        qw.push(w)
+                    }
+
+                    console.log(qw)
+                    a = arithmeticSeq(qw, x, true)
+                    afail = a[0]
+                    anl = a[1]
+                    anth = a[2]
+                    
+                    fail = afail
+                    qe = []
+                    for (let i = 0; i < anl.length; i++) {
+                        const element = anl[i];
+                        w = (coefficientn2 * (Math.pow((i+x), 2))) + element
+                        qe.push(w)
+                    }
+
+                    if (coefficientn2 == 1) {
+                        coefficientn2 = ''
+                    }
+                    nth = `${coefficientn2}(n^2) ${anth}`
+
+                    return [fail, qe, nth]
+                }
+            }
+
+            function quadraticSeqV2(l, x) {
+                n = null;
+                ni = null;
+                n1 = null;
+                n1i = null;
+                n2 = null;
+                n2i = null;
+                for (let i = 0; i < l.length; i++) {
+                    const element = l[i];
+                    if (typeof element === "object") {
+                        continue;
+                    }
+                    if (typeof n === "object") {
+                        n = element
+                        ni = i
+                        continue;
+                    }
+                    if (typeof n1 === "object") {
+                        n1 = element
+                        n1i = i
+                        continue;
+                    }
+                    if (typeof n2i === "object") {
+                        n2 = element
+                        n2i = i
+                        break;
+                    }
+                }
+
+                nq = [Math.pow((ni+x),2), (ni+x)]
+                n1q = [Math.pow((n1i+x),2), (n1i+x)]
+                n2q = [Math.pow((n2i+x),2), (n2i+x)]
+                
+                console.log(nq,n1q,n2q)
+
+                eq1x = n1q[0] - nq[0]
+                eq2x = n2q[0] - n1q[0]
+
+                eq1y = n1q[1] - nq[1]
+                eq2y = n2q[1] - n1q[1]
+
+                eq1eq = n1 - n
+                eq2eq = n2 - n1
+
+                x_2coeff = [eq1x, eq2x]
+                y_2coeff = [eq1y, eq2y]
+                eq_2coeff = [eq1eq, eq2eq]
+                console.log(x_2coeff, y_2coeff, eq_2coeff)
+                a = solveSimultaneous2D(x_2coeff, y_2coeff, eq_2coeff)
+                x_var = a[0]
+                y_var = a[1]
+                z_var = n - (nq[0]*x_var) - (nq[1]*y_var)
+                nthlist = [x_var, y_var, z_var]
+
+                fail = false
+                nl = []
+                for (let i = 0; i < l.length; i++) {
+                    const element = l[i];
+                    q = (x_var * (Math.pow((i+x), 2))) + (y_var * (i+x)) + (z_var)
+                    nl.push(q)
+                    if (typeof element === "object") {
+                        continue;
+                    }
+                    if (q != element) {
+                        fail = true;
+                        break;
+                    }
+                }
+
+                if (y_var == 1) {
+                    nth = 'n'
+                } else if (y_var > 0) {
+                    nth1 = ` + ${y_var}n`
+                } else if (y_var < 0) {
+                    nth1 = ` - ${y_var*-1}n`
+                } else {
+                    nth1 = ''
+                }
+
+                if (z_var > 0) {
+                    nth2 = ` + ${z_var}`
+                } else if (z_var < 0) {
+                    nth2 = ` - ${z_var*-1}`
+                } else {
+                    nth2 = ''
+                }
+
+                if (x_var == 1) {
+                    x_var = ''
+                }
+
+                nth = `${x_var}(n^2)${nth1}${nth2}`
+                return [fail, nl, nth]
             }
 
             new MakerTag({
